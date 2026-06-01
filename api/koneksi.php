@@ -1,17 +1,13 @@
 <?php
-// api/koneksi.php
 
-// Header agar bisa diakses dari frontend (CORS)
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-// Konfigurasi Database TiDB Cloud (Dari Screenshot Kamu)
 $host = "gateway01.ap-southeast-1.prod.alicloud.tidbcloud.com";
 $user = "4HiqgjKudvGuqfv.root";
 $pass = "IUgsMwolBgS1hU2M";
-$db   = "koperasikas_db"; // Nama database yang akan kita buat
+$db   = "koperasikas_db";
 
-// Koneksi ke Database
 $conn = new mysqli($host, $user, $pass, $db, 4000);
 
 // Cek Koneksi
