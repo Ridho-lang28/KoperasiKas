@@ -8,6 +8,14 @@
     {
       "src": "/api/(.*).php",
       "dest": "/api/$1.php"
+    },
+    {
+      "src": "/",
+      "dest": "/login.html" 
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
     }
   ]
 }
