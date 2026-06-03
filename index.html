@@ -104,4 +104,94 @@
                 </div>
 
                 <!-- BOTTOM SECTION -->
-                <div class="
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Transaksi Terbaru -->
+                    <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                            <h3 class="font-bold text-gray-800 text-base">Transaksi Terbaru</h3>
+                            <a href="#" class="text-sm text-primary font-medium hover:underline">Lihat Semua</a>
+                        </div>
+                        <div class="divide-y divide-gray-50" id="recentTransactionsList">
+                            <!-- JS Populated -->
+                        </div>
+                    </div>
+
+                    <!-- Ringkasan Simpanan -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="font-bold text-gray-800 text-base mb-6">Ringkasan Simpanan</h3>
+                        <div class="space-y-5" id="savingSummary">
+                            <!-- JS Populated -->
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
+                            <span class="text-sm font-medium text-gray-500">Total Simpanan</span>
+                            <span class="text-lg font-bold text-gray-900" id="totalSavingAmount">Rp 0</span>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Cek Session Sederhana
+        const user = JSON.parse(localStorage.getItem('koperasikas_user'));
+        if (!user) {
+            window.location.href = 'login.html';
+        } else {
+            document.getElementById('userNameDisplay').textContent = user.nama || 'Admin';
+        }
+
+        // Dummy Data untuk Tampilan Awal (Nanti diganti Fetch API)
+        document.getElementById('statIncome').textContent = 'Rp 15.000.000';
+        document.getElementById('statExpense').textContent = 'Rp 4.200.000';
+        document.getElementById('statBalance').textContent = 'Rp 10.800.000';
+        document.getElementById('statMembers').textContent = '24';
+        document.getElementById('totalSavingAmount').textContent = 'Rp 45.000.000';
+
+        // Inisialisasi Chart Dummy
+        const ctx = document.getElementById('dashboardChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'],
+                datasets: [{
+                    label: 'Pemasukan',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderColor: '#10b981',
+                    tension: 0.4
+                }, {
+                    label: 'Pengeluaran',
+                    data: [8, 11, 5, 8, 4, 6],
+                    borderColor: '#DC1B33',
+                    tension: 0.4
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        // Render Transaksi Dummy
+        const transactions = [
+            { title: 'Budi Santoso', sub: 'Simpanan Wajib · 15 Jan 2026', amount: '+Rp 100.000', type: 'in' },
+            { title: 'ATK Kantor', sub: 'Pengeluaran Operasional · 14 Jan 2026', amount: '-Rp 350.000', type: 'out' },
+            { title: 'Siti Rahayu', sub: 'Simpanan Pokok · 12 Jan 2026', amount: '+Rp 500.000', type: 'in' }
+        ];
+
+        document.getElementById('recentTransactionsList').innerHTML = transactions.map(tx => `
+            <div class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition cursor-pointer">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full ${tx.type==='in'?'bg-green-100 text-green-600':'bg-red-100 text-red-600'} flex items-center justify-center">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${tx.type==='in'?'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6':'M13 17h8m0 0V9m0 8l-8-8-4 4-6-6'}"></path></svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-gray-800">${tx.title}</p>
+                        <p class="text-xs text-gray-400">${tx.sub}</p>
+                    </div>
+                </div>
+                <span class="text-sm font-bold ${tx.type==='in'?'text-emerald-600':'text-primary'}">${tx.amount}</span>
+            </div>
+        `).join('');
+    </script>
+</body>
+</html>
