@@ -1,5 +1,5 @@
 <?php
-
+// api/koneksi.php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -10,13 +10,9 @@ $db   = "koperasikas_db";
 
 $conn = new mysqli($host, $user, $pass, $db, 4000);
 
-// Cek Koneksi
 if ($conn->connect_error) {
     http_response_code(500);
-    echo json_encode(["error" => "Gagal terhubung ke database: " . $conn->connect_error]);
+    echo json_encode(["error" => "Gagal koneksi DB: " . $conn->connect_error]);
     exit();
 }
-
-// Opsional: Set timezone ke Jakarta
-$conn->query("SET time_zone = '+07:00'");
 ?>
